@@ -1,6 +1,6 @@
 package aulas.Back;
 
-class RecursoTIC {
+public class RecursoTIC {
     private String id;
     private String nombre;
     private String descripcion;

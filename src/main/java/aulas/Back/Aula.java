@@ -1,5 +1,7 @@
 package aulas.Back;
 
+import aulas.Back.estado.EstadoAula;
+
 import java.util.*;
 
 
@@ -9,15 +11,34 @@ public class Aula implements Cloneable {
     private int capacidad;
     private String sedeId;
     private String tipoId;
+    private EstadoAula estadoActual;
     private List<RecursoTIC> recursos;
 
-    public Aula(String id, String nombre, int capacidad, String sedeId, String tipoId) {
+
+    public Aula(String id, String nombre, int capacidad, String sedeId, String tipoId, EstadoAula estadoActual, List<RecursoTIC> recursos) {
         this.id = id;
         this.nombre = nombre;
         this.capacidad = capacidad;
         this.sedeId = sedeId;
         this.tipoId = tipoId;
-        this.recursos = new ArrayList<>();
+        this.estadoActual = estadoActual;
+        this.recursos = recursos;
+    }
+
+    public Aula(String tipoId, String sedeId, int capacidad, String nombre, String id) {
+        this.tipoId = tipoId;
+        this.sedeId = sedeId;
+        this.capacidad = capacidad;
+        this.nombre = nombre;
+        this.id = id;
+    }
+
+    public EstadoAula getEstadoActual() {
+        return estadoActual;
+    }
+
+    public void setEstadoActual(EstadoAula estadoActual) {
+        this.estadoActual = estadoActual;
     }
 
     public void asignarRecursos(List<RecursoTIC> recursos) {
@@ -86,6 +107,9 @@ public class Aula implements Cloneable {
     public void setRecursos(List<RecursoTIC> recursos) {
         this.recursos = recursos;
     }
+    public void cambiarEstado(EstadoAula nuevoEstado) {
+        this.estadoActual = nuevoEstado;
+    }
 
     public static class AulaBuilder {
         private String id;
@@ -130,6 +154,7 @@ public class Aula implements Cloneable {
             aula.asignarRecursos(recursos);
             return aula;
         }
+
     }
 }
 

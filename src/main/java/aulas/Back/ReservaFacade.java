@@ -1,6 +1,5 @@
-package aulas.Back.estado;
+package aulas.Back;
 
-import aulas.Back.Aula;
 import aulas.Back.estado.EstadoReservada;
 import aulas.Back.validadores.*;
 

@@ -1,7 +1,9 @@
-package aulas.Back;
+package aulas.Back.factory;
+
+import aulas.Back.Aula;
+import aulas.Back.RecursoTIC;
 
 import java.util.List;
-import java.util.UUID;
 
 interface AulaFactory {
     Aula crearAula();
