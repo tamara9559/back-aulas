@@ -1,7 +1,5 @@
 package aulas.Back.validadores;
 
-
-
 import aulas.Back.Aula;
 import aulas.Back.estado.EstadoReservada;
 

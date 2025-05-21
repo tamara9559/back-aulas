@@ -1,6 +1,5 @@
 package aulas.Back.validadores;
 
-
 import aulas.Back.Aula;
 
 public class ValidadorCapacidad implements ValidadorReserva {
