@@ -17,8 +17,8 @@ class AulaHibridaFactory implements AulaFactory {
                 .build();
     }
 
-    @Override
-    public List<RecursoTIC> asignarRecursos() {
+
+    private List<RecursoTIC> asignarRecursos() {
         return List.of(
                 new RecursoTIC("1", "Proyector", "Proyector digital", true),
                 new RecursoTIC("2", "Cámara", "Cámara 4K", true),

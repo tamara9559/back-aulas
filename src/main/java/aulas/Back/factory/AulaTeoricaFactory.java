@@ -19,8 +19,8 @@ class AulaTeoricaFactory implements AulaFactory {
         return aula;
     }
 
-    @Override
-    public List<RecursoTIC> asignarRecursos() {
+
+    private List<RecursoTIC> asignarRecursos() {
         return List.of(
                 new RecursoTIC("4", "Pizarra", "Pizarra blanca", true),
                 new RecursoTIC("5", "Proyector", "Proyector básico", true)

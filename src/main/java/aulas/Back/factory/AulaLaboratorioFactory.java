@@ -19,8 +19,8 @@ class AulaLaboratorioFactory implements AulaFactory {
         return aula;
     }
 
-    @Override
-    public List<RecursoTIC> asignarRecursos() {
+
+    private List<RecursoTIC> asignarRecursos() {
         return List.of(
                 new RecursoTIC("6", "Computadores", "PCs de alto rendimiento", true),
                 new RecursoTIC("7", "Red LAN", "Conexión LAN dedicada", true),
