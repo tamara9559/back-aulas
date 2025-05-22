@@ -8,4 +8,3 @@ public class NotificadorUsuarios implements ObservadorAula {
         System.out.println("Notificando cambio de estado en aula: " + aula.getNombre());
     }
 }
-
