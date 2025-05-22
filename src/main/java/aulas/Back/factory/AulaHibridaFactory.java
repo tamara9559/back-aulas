@@ -1,9 +1,12 @@
-package aulas.Back;
+package aulas.Back.factory;
+
+import aulas.Back.Aula;
+import aulas.Back.RecursoTIC;
 
 import java.util.List;
 import java.util.UUID;
 
-class AulaHibridaFactory implements AulaFactory {
+public class AulaHibridaFactory implements AulaFactory {
     @Override
     public Aula crearAula() {
         return new Aula.AulaBuilder()
@@ -14,8 +17,8 @@ class AulaHibridaFactory implements AulaFactory {
                 .build();
     }
 
-    @Override
-    public List<RecursoTIC> asignarRecursos() {
+
+    private List<RecursoTIC> asignarRecursos() {
         return List.of(
                 new RecursoTIC("1", "Proyector", "Proyector digital", true),
                 new RecursoTIC("2", "Cámara", "Cámara 4K", true),

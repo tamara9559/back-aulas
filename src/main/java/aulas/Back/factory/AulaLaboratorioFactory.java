@@ -1,9 +1,12 @@
-package aulas.Back;
+package aulas.Back.factory;
+
+import aulas.Back.Aula;
+import aulas.Back.RecursoTIC;
 
 import java.util.List;
 import java.util.UUID;
 
-class AulaLaboratorioFactory implements AulaFactory {
+public class AulaLaboratorioFactory implements AulaFactory {
     @Override
     public Aula crearAula() {
         Aula aula = new Aula.AulaBuilder()
@@ -16,8 +19,8 @@ class AulaLaboratorioFactory implements AulaFactory {
         return aula;
     }
 
-    @Override
-    public List<RecursoTIC> asignarRecursos() {
+
+    private List<RecursoTIC> asignarRecursos() {
         return List.of(
                 new RecursoTIC("6", "Computadores", "PCs de alto rendimiento", true),
                 new RecursoTIC("7", "Red LAN", "Conexión LAN dedicada", true),
