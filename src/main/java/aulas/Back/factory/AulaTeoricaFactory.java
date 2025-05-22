@@ -6,7 +6,7 @@ import aulas.Back.RecursoTIC;
 import java.util.List;
 import java.util.UUID;
 
-class AulaTeoricaFactory implements AulaFactory {
+public class AulaTeoricaFactory implements AulaFactory {
     @Override
     public Aula crearAula() {
         Aula aula = new Aula.AulaBuilder()
