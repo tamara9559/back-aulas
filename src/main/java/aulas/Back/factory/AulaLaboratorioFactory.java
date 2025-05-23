@@ -22,9 +22,9 @@ public class AulaLaboratorioFactory implements AulaFactory {
 
     private List<RecursoTIC> asignarRecursos() {
         return List.of(
-                new RecursoTIC("6", "Computadores", "PCs de alto rendimiento", true),
-                new RecursoTIC("7", "Red LAN", "Conexión LAN dedicada", true),
-                new RecursoTIC("8", "Proyector", "Proyector multimedia", true)
+                new RecursoTIC("6", "Computadores", "PCs de alto rendimiento", true, 8),
+                new RecursoTIC("7", "Red LAN", "Conexión LAN dedicada", true, 8),
+                new RecursoTIC("8", "Proyector", "Proyector multimedia", true, 8)
         );
     }
 }

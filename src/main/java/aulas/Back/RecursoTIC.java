@@ -26,4 +26,6 @@ public class RecursoTIC {
 
     /** Indica si el recurso TIC está disponible. */
     private boolean disponible;
+
+    private int cantidad;
 }

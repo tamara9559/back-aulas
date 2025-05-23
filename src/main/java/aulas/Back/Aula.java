@@ -2,8 +2,12 @@ package aulas.Back;
 
 import aulas.Back.estado.EstadoAula;
 import aulas.Back.observador.ObservadorAula;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +22,12 @@ import java.util.List;
  *
  * @author Jan
  */
+@Document(collection = "aulas")
 public class Aula implements Cloneable {
     /** Identificador único del aula. */
     @Setter
     @Getter
+    @Id
     private String id;
 
     /** Nombre descriptivo del aula. */
@@ -72,6 +78,10 @@ public class Aula implements Cloneable {
         this.tipoId = tipoId;
         this.estadoActual = estadoActual;
         this.recursos = recursos != null ? recursos : new ArrayList<>();
+    }
+
+
+    public Aula() {
     }
 
     /**

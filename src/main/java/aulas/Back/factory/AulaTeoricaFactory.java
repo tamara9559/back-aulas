@@ -22,8 +22,8 @@ public class AulaTeoricaFactory implements AulaFactory {
 
     private List<RecursoTIC> asignarRecursos() {
         return List.of(
-                new RecursoTIC("4", "Pizarra", "Pizarra blanca", true),
-                new RecursoTIC("5", "Proyector", "Proyector básico", true)
+                new RecursoTIC("4", "Pizarra", "Pizarra blanca", true, 8),
+                new RecursoTIC("5", "Proyector", "Proyector básico", true, 8)
         );
     }
 }

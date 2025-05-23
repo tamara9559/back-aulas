@@ -20,9 +20,9 @@ public class AulaHibridaFactory implements AulaFactory {
 
     private List<RecursoTIC> asignarRecursos() {
         return List.of(
-                new RecursoTIC("1", "Proyector", "Proyector digital", true),
-                new RecursoTIC("2", "Cámara", "Cámara 4K", true),
-                new RecursoTIC("3", "Micrófono", "Micrófono ambiente", true)
+                new RecursoTIC("1", "Proyector", "Proyector digital", true, 8),
+                new RecursoTIC("2", "Cámara", "Cámara 4K", true, 8),
+                new RecursoTIC("3", "Micrófono", "Micrófono ambiente", true, 8)
         );
     }
 }

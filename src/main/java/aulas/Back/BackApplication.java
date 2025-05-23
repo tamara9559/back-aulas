@@ -23,7 +23,7 @@ public class BackApplication {
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(BackApplication.class, args);
-		System.out.println("hola");
+		System.out.println("bip bip");
 		System.out.println("Sistema de aulas iniciado");
 	}
 }
