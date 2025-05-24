@@ -1,7 +1,6 @@
 package aulas.Back;
 
-import aulas.Back.estado.EstadoAula;
-import aulas.Back.estado.EstadoLibre;
+import aulas.Back.estado.*;
 import aulas.Back.observador.NotificadorUsuarios;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +12,7 @@ import java.util.List;
 
 @Document(collection = "aulas")
 public class Aula implements Cloneable {
+
     @Setter @Getter @Id
     private String id;
 
@@ -26,33 +26,23 @@ public class Aula implements Cloneable {
     private String sedeId;
 
     @Setter @Getter
-    private String tipoId;
+    private TipoAulaEnum tipo;
+
+    @Setter @Getter
+    private EstadoAulaEnum estado = EstadoAulaEnum.LIBRE;
 
     private List<RecursoTIC> recursos = new ArrayList<>();
 
-    // ✅ Estado actual del aula (patrón State)
-    private EstadoAula estadoActual = new EstadoLibre(); // Por defecto libre
-
     public Aula() {}
 
-    public Aula(String id, String nombre, int capacidad, String sedeId, String tipoId, List<RecursoTIC> recursos) {
+    public Aula(String id, String nombre, int capacidad, String sedeId, TipoAulaEnum tipo, EstadoAulaEnum estado, List<RecursoTIC> recursos) {
         this.id = id;
         this.nombre = nombre;
         this.capacidad = capacidad;
         this.sedeId = sedeId;
-        this.tipoId = tipoId;
+        this.tipo = tipo;
+        this.estado = estado;
         this.recursos = recursos != null ? recursos : new ArrayList<>();
-        this.estadoActual = new EstadoLibre();
-    }
-
-    public Aula(String tipoId, String sedeId, int capacidad, String nombre, String id) {
-        this.tipoId = tipoId;
-        this.sedeId = sedeId;
-        this.capacidad = capacidad;
-        this.nombre = nombre;
-        this.id = id;
-        this.recursos = new ArrayList<>();
-        this.estadoActual = new EstadoLibre();
     }
 
     public List<RecursoTIC> getRecursos() {
@@ -71,6 +61,19 @@ public class Aula implements Cloneable {
         this.recursos.removeAll(recursos);
     }
 
+    public EstadoAula getEstadoActual() {
+        return switch (estado) {
+            case LIBRE -> new EstadoLibre();
+            case RESERVADA -> new EstadoReservada();
+            case EN_MANTENIMIENTO -> new EstadoMantenimiento();
+            case INHABILITADA -> new EstadoInhabilitada();
+        };
+    }
+
+    public String getDescripcionEstado() {
+        return getEstadoActual().descripcion();
+    }
+
     @Override
     public Aula clone() {
         try {
@@ -82,31 +85,18 @@ public class Aula implements Cloneable {
         }
     }
 
-    //  Estado actual (getter y setter)
-    public EstadoAula getEstadoActual() {
-        return estadoActual;
-    }
-
-    public void setEstadoActual(EstadoAula nuevoEstado) {
-        this.estadoActual = nuevoEstado;
-    }
-
-    //  Para mostrar el estado en texto al serializar (ej. en MongoDB)
-    public String getEstado() {
-        return estadoActual != null ? estadoActual.descripcion() : "desconocido";
-    }
-
     public void agregarObservador(NotificadorUsuarios notificadorUsuarios) {
-        // aún por implementar si vas a usar Observer real
+        // implementación futura del patrón Observer
     }
 
-    //  Builder
+    // Builder actualizado
     public static class AulaBuilder {
         private String id;
         private String nombre;
         private int capacidad;
         private String sedeId;
-        private String tipoId;
+        private TipoAulaEnum tipo;
+        private EstadoAulaEnum estado = EstadoAulaEnum.LIBRE;
         private List<RecursoTIC> recursos = new ArrayList<>();
 
         public AulaBuilder id(String id) {
@@ -129,8 +119,13 @@ public class Aula implements Cloneable {
             return this;
         }
 
-        public AulaBuilder tipoId(String tipoId) {
-            this.tipoId = tipoId;
+        public AulaBuilder tipo(TipoAulaEnum tipo) {
+            this.tipo = tipo;
+            return this;
+        }
+
+        public AulaBuilder estado(EstadoAulaEnum estado) {
+            this.estado = estado;
             return this;
         }
 
@@ -140,7 +135,7 @@ public class Aula implements Cloneable {
         }
 
         public Aula build() {
-            return new Aula(id, nombre, capacidad, sedeId, tipoId, recursos);
+            return new Aula(id, nombre, capacidad, sedeId, tipo, estado, recursos);
         }
     }
 }

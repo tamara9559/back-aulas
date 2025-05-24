@@ -93,4 +93,14 @@ public class AulaController {
         return aula != null ? ResponseEntity.ok(aula) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/{id}/estado-descripcion")
+    public ResponseEntity<String> obtenerDescripcionEstado(@PathVariable String id) {
+        Aula aula = aulaService.obtenerAula(id);
+        if (aula != null) {
+            return ResponseEntity.ok(aula.getEstadoActual().descripcion());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
 }

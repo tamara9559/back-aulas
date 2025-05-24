@@ -22,9 +22,14 @@ public class BackApplication {
 	 * @param args Argumentos de línea de comandos.
 	 */
 	public static void main(String[] args) {
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			System.out.println("Programa detenido");
+			System.out.println("bip bi...");
+		}));
+
 		SpringApplication.run(BackApplication.class, args);
+		System.out.println("Programa iniciando");
 		System.out.println("bip bip");
-		System.out.println("Sistema de aulas iniciado");
 	}
 }
 
