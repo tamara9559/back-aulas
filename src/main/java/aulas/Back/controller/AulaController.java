@@ -1,6 +1,7 @@
 package aulas.Back.controller;
 
 import aulas.Back.Aula;
+import aulas.Back.RecursoTIC;
 import aulas.Back.service.AulaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -83,4 +84,13 @@ public class AulaController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PutMapping("/{id}/recursos")
+    public ResponseEntity<Aula> asignarRecursos(
+            @PathVariable String id,
+            @RequestBody List<RecursoTIC> recursos
+    ) {
+        Aula aula = aulaService.asignarRecursos(id, recursos);
+        return aula != null ? ResponseEntity.ok(aula) : ResponseEntity.notFound().build();
+    }
+
 }

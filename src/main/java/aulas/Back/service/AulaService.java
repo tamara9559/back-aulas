@@ -1,6 +1,7 @@
 package aulas.Back.service;
 
 import aulas.Back.Aula;
+import aulas.Back.RecursoTIC;
 import aulas.Back.repository.AulaRepository;
 import org.springframework.stereotype.Service;
 
@@ -85,4 +86,14 @@ public class AulaService {
             return null;
         }
     }
+    public Aula asignarRecursos(String id, List<RecursoTIC> recursos) {
+        Optional<Aula> optAula = aulaRepository.findById(id);
+        if (optAula.isPresent()) {
+            Aula aula = optAula.get();
+            aula.asignarRecursos(recursos);
+            return aulaRepository.save(aula);
+        }
+        return null;
+    }
+
 }

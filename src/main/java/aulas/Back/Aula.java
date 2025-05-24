@@ -1,5 +1,8 @@
 package aulas.Back;
 
+import aulas.Back.estado.EstadoAula;
+import aulas.Back.estado.EstadoLibre;
+import aulas.Back.observador.NotificadorUsuarios;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -8,36 +11,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Representa un aula dentro del sistema.
- * Permite gestionar recursos TIC y estado del aula.
- *
- * @author Jan
- */
 @Document(collection = "aulas")
 public class Aula implements Cloneable {
-    /** Identificador único del aula. */
     @Setter @Getter @Id
     private String id;
 
-    /** Nombre descriptivo del aula. */
     @Setter @Getter
     private String nombre;
 
-    /** Capacidad máxima de personas para el aula. */
     @Setter @Getter
     private int capacidad;
 
-    /** Identificador de la sede a la que pertenece el aula. */
     @Setter @Getter
     private String sedeId;
 
-    /** Identificador del tipo de aula. */
     @Setter @Getter
     private String tipoId;
 
-    /** Lista de recursos TIC asociados al aula. */
     private List<RecursoTIC> recursos = new ArrayList<>();
+
+    // ✅ Estado actual del aula (patrón State)
+    private EstadoAula estadoActual = new EstadoLibre(); // Por defecto libre
+
+    public Aula() {}
 
     public Aula(String id, String nombre, int capacidad, String sedeId, String tipoId, List<RecursoTIC> recursos) {
         this.id = id;
@@ -46,9 +42,8 @@ public class Aula implements Cloneable {
         this.sedeId = sedeId;
         this.tipoId = tipoId;
         this.recursos = recursos != null ? recursos : new ArrayList<>();
+        this.estadoActual = new EstadoLibre();
     }
-
-    public Aula() {}
 
     public Aula(String tipoId, String sedeId, int capacidad, String nombre, String id) {
         this.tipoId = tipoId;
@@ -57,6 +52,7 @@ public class Aula implements Cloneable {
         this.nombre = nombre;
         this.id = id;
         this.recursos = new ArrayList<>();
+        this.estadoActual = new EstadoLibre();
     }
 
     public List<RecursoTIC> getRecursos() {
@@ -67,26 +63,14 @@ public class Aula implements Cloneable {
         this.recursos = recursos;
     }
 
-    /**
-     * Agrega una lista de recursos TIC al aula.
-     * @param recursos Lista de recursos a agregar.
-     */
     public void asignarRecursos(List<RecursoTIC> recursos) {
         this.recursos.addAll(recursos);
     }
 
-    /**
-     * Remueve una lista de recursos TIC del aula.
-     * @param recursos Lista de recursos a remover.
-     */
     public void removerRecursos(List<RecursoTIC> recursos) {
         this.recursos.removeAll(recursos);
     }
 
-    /**
-     * Crea una copia del aula (sin recursos compartidos).
-     * @return Copia del aula.
-     */
     @Override
     public Aula clone() {
         try {
@@ -98,9 +82,25 @@ public class Aula implements Cloneable {
         }
     }
 
-    /**
-     * Builder para crear instancias de {@link Aula} de forma flexible.
-     */
+    //  Estado actual (getter y setter)
+    public EstadoAula getEstadoActual() {
+        return estadoActual;
+    }
+
+    public void setEstadoActual(EstadoAula nuevoEstado) {
+        this.estadoActual = nuevoEstado;
+    }
+
+    //  Para mostrar el estado en texto al serializar (ej. en MongoDB)
+    public String getEstado() {
+        return estadoActual != null ? estadoActual.descripcion() : "desconocido";
+    }
+
+    public void agregarObservador(NotificadorUsuarios notificadorUsuarios) {
+        // aún por implementar si vas a usar Observer real
+    }
+
+    //  Builder
     public static class AulaBuilder {
         private String id;
         private String nombre;
