@@ -80,7 +80,7 @@ public class AulaService {
             aula.setNombre(aulaDatos.getNombre());
             aula.setCapacidad(aulaDatos.getCapacidad());
             aula.setSedeId(aulaDatos.getSedeId());
-            aula.setTipoId(aulaDatos.getTipoId());
+            aula.setTipo(aulaDatos.getTipo()); // ✅ Aquí está el cambio
             return aulaRepository.save(aula);
         } else {
             return null;
