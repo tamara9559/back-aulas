@@ -2,6 +2,7 @@ package aulas.Back;
 
 import aulas.Back.estado.*;
 import aulas.Back.observador.NotificadorUsuarios;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -32,6 +33,10 @@ public class Aula implements Cloneable {
     private EstadoAulaEnum estado = EstadoAulaEnum.LIBRE;
 
     private List<RecursoTIC> recursos = new ArrayList<>();
+
+    // ⛔ Ocultar este campo en la serialización
+    @JsonIgnore
+    private EstadoAula estadoActual = new EstadoLibre();
 
     public Aula() {}
 
@@ -89,7 +94,6 @@ public class Aula implements Cloneable {
         // implementación futura del patrón Observer
     }
 
-    // Builder actualizado
     public static class AulaBuilder {
         private String id;
         private String nombre;
