@@ -41,6 +41,13 @@ public class AulaService {
      * @return Aula creada.
      */
     public Aula crearAula(Aula aula) {
+        boolean existe = aulaRepository.findAll().stream()
+                .anyMatch(existing -> existing.getNombre().equalsIgnoreCase(aula.getNombre()));
+
+        if (existe) {
+            throw new IllegalArgumentException("Ya existe un aula con ese nombre.");
+        }
+
         return aulaRepository.save(aula);
     }
 
@@ -86,14 +93,40 @@ public class AulaService {
             return null;
         }
     }
-    public Aula asignarRecursos(String id, List<RecursoTIC> recursos) {
+    public Aula asignarRecursos(String id, List<RecursoTIC> nuevosRecursos) {
         Optional<Aula> optAula = aulaRepository.findById(id);
         if (optAula.isPresent()) {
             Aula aula = optAula.get();
-            aula.asignarRecursos(recursos);
+
+            // Filtrar recursos que ya están asignados
+            List<String> idsExistentes = aula.getRecursos().stream()
+                    .map(RecursoTIC::getId)
+                    .toList();
+
+            boolean hayDuplicados = nuevosRecursos.stream()
+                    .anyMatch(r -> idsExistentes.contains(r.getId()));
+
+            if (hayDuplicados) {
+                throw new IllegalArgumentException("Uno o más recursos ya están asignados al aula.");
+            }
+
+            aula.asignarRecursos(nuevosRecursos);
+            return aulaRepository.save(aula);
+        }
+
+        return null;
+    }
+
+
+    public Aula removerRecurso(String aulaId, RecursoTIC recurso) {
+        Optional<Aula> optAula = aulaRepository.findById(aulaId);
+        if (optAula.isPresent()) {
+            Aula aula = optAula.get();
+            aula.removerRecursos(List.of(recurso));
             return aulaRepository.save(aula);
         }
         return null;
     }
+
 
 }

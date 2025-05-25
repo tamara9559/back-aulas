@@ -77,11 +77,12 @@ public class RecursoService {
             RecursoTIC recurso = recursoExistente.get();
             recurso.setNombre(datos.getNombre());
             recurso.setDescripcion(datos.getDescripcion());
-            recurso.setDisponible(datos.isDisponible());
+            recurso.setEstado(datos.getEstado()); // ✅ ahora se usa el enum directamente
             recurso.setCantidad(datos.getCantidad());
             return recursoRepository.save(recurso);
         }
         return null;
     }
+
 }
 

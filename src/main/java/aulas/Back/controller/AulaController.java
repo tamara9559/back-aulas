@@ -102,5 +102,14 @@ public class AulaController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/{id}/recursos/remover")
+    public ResponseEntity<Aula> removerRecurso(
+            @PathVariable String id,
+            @RequestBody RecursoTIC recurso) {
+        Aula aula = aulaService.removerRecurso(id, recurso);
+        return aula != null ? ResponseEntity.ok(aula) : ResponseEntity.notFound().build();
+    }
+
+
 
 }
