@@ -1,6 +1,6 @@
 package aulas.Back.factory;
 
-import aulas.Back.Aula;
+import aulas.Back.aula.Aula;
 
 /**
  * Interfaz para la creación de instancias de {@link Aula} utilizando el patrón Factory.

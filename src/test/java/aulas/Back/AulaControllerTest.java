@@ -1,4 +1,5 @@
 package aulas.Back;
+import aulas.Back.aula.Aula;
 import aulas.Back.controller.AulaController;
 import aulas.Back.service.AulaService;
 import org.junit.jupiter.api.Test;

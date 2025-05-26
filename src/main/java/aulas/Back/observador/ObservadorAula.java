@@ -1,6 +1,6 @@
 package aulas.Back.observador;
 
-import aulas.Back.Aula;
+import aulas.Back.aula.Aula;
 
 /**
  * Interfaz para implementar el patrón Observador sobre objetos de tipo {@link Aula}.

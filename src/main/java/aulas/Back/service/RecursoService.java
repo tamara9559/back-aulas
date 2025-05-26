@@ -1,6 +1,6 @@
 package aulas.Back.service;
 
-import aulas.Back.RecursoTIC;
+import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.repository.RecursoRepository;
 import org.springframework.stereotype.Service;
 

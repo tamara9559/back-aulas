@@ -1,10 +1,10 @@
 package aulas.Back.factory;
 
-import aulas.Back.Aula;
-import aulas.Back.RecursoTIC;
-import aulas.Back.TipoAulaEnum;
+import aulas.Back.aula.Aula;
+import aulas.Back.recursos.EstadoRecurso;
+import aulas.Back.recursos.RecursoTIC;
+import aulas.Back.aula.TipoAulaEnum;
 
-import java.util.List;
 import java.util.UUID;
 
 public class AulaHibridaFactory implements AulaFactory {
@@ -17,9 +17,9 @@ public class AulaHibridaFactory implements AulaFactory {
                 .capacidad(30)
                 .sedeId("S1")
                 .tipo(TipoAulaEnum.HIBRIDA)
-                .agregarRecurso(new RecursoTIC("1", "Proyector", "Proyector digital", true, 8))
-                .agregarRecurso(new RecursoTIC("2", "Cámara", "Cámara 4K", true, 8))
-                .agregarRecurso(new RecursoTIC("3", "Micrófono", "Micrófono ambiente", true, 8))
+                .agregarRecurso(new RecursoTIC("1", "Proyector", "Proyector digital", EstadoRecurso.DISPONIBLE, 8))
+                .agregarRecurso(new RecursoTIC("2", "Cámara", "Cámara 4K", EstadoRecurso.DISPONIBLE, 8))
+                .agregarRecurso(new RecursoTIC("3", "Micrófono", "Micrófono ambiente", EstadoRecurso.DISPONIBLE, 8))
                 .build();
     }
 }

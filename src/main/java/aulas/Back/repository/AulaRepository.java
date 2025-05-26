@@ -1,6 +1,6 @@
 package aulas.Back.repository;
 
-import aulas.Back.Aula;
+import aulas.Back.aula.Aula;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

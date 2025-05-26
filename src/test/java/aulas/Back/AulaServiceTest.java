@@ -1,5 +1,6 @@
 package aulas.Back;
 
+import aulas.Back.aula.Aula;
 import aulas.Back.repository.AulaRepository;
 import aulas.Back.service.AulaService;
 import org.junit.jupiter.api.BeforeEach;

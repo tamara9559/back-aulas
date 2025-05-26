@@ -1,5 +1,6 @@
 package aulas.Back;
 import aulas.Back.controller.RecursoController;
+import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.service.RecursoService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

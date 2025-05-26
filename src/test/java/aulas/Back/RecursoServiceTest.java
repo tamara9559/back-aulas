@@ -1,4 +1,5 @@
 package aulas.Back;
+import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.repository.RecursoRepository;
 import aulas.Back.service.RecursoService;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,9 @@
-package aulas.Back;
+package aulas.Back.aula;
 
 import aulas.Back.estado.*;
-import aulas.Back.observador.NotificadorUsuarios;
+import aulas.Back.observador.AuditorEventos;
+import aulas.Back.observador.ObservadorAula;
+import aulas.Back.recursos.RecursoTIC;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,9 +36,11 @@ public class Aula implements Cloneable {
 
     private List<RecursoTIC> recursos = new ArrayList<>();
 
-    // ⛔ Ocultar este campo en la serialización
     @JsonIgnore
     private EstadoAula estadoActual = new EstadoLibre();
+
+    @JsonIgnore
+    private final List<ObservadorAula> observadores = new ArrayList<>();
 
     public Aula() {}
 
@@ -60,10 +64,12 @@ public class Aula implements Cloneable {
 
     public void asignarRecursos(List<RecursoTIC> recursos) {
         this.recursos.addAll(recursos);
+        notificarObservadores();
     }
 
     public void removerRecursos(List<RecursoTIC> recursos) {
         this.recursos.removeAll(recursos);
+        notificarObservadores();
     }
 
     public EstadoAula getEstadoActual() {
@@ -90,8 +96,14 @@ public class Aula implements Cloneable {
         }
     }
 
-    public void agregarObservador(NotificadorUsuarios notificadorUsuarios) {
-        // implementación futura del patrón Observer
+    public void agregarObservador(ObservadorAula observador) {
+        this.observadores.add(observador);
+    }
+
+    public void notificarObservadores() {
+        for (ObservadorAula observador : observadores) {
+            observador.actualizar(this);
+        }
     }
 
     public static class AulaBuilder {
@@ -139,7 +151,9 @@ public class Aula implements Cloneable {
         }
 
         public Aula build() {
-            return new Aula(id, nombre, capacidad, sedeId, tipo, estado, recursos);
+            Aula aula = new Aula(id, nombre, capacidad, sedeId, tipo, estado, recursos);
+            aula.agregarObservador(new AuditorEventos());
+            return aula;
         }
     }
 }

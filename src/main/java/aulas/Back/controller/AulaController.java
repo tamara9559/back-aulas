@@ -1,7 +1,7 @@
 package aulas.Back.controller;
 
-import aulas.Back.Aula;
-import aulas.Back.RecursoTIC;
+import aulas.Back.aula.Aula;
+import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.service.AulaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

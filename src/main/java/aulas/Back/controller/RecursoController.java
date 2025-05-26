@@ -1,6 +1,6 @@
 package aulas.Back.controller;
 
-import aulas.Back.RecursoTIC;
+import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.service.RecursoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

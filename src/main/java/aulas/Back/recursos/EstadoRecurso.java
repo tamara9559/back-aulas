@@ -1,4 +1,4 @@
-package aulas.Back;
+package aulas.Back.recursos;
 
 public enum EstadoRecurso {
     DISPONIBLE,

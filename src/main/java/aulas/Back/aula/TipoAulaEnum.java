@@ -1,4 +1,4 @@
-package aulas.Back;
+package aulas.Back.aula;
 
 public enum TipoAulaEnum {
     TEORICA,

@@ -1,4 +1,4 @@
-package aulas.Back;
+package aulas.Back.recursos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

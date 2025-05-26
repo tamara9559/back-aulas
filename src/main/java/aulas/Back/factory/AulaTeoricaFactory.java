@@ -1,10 +1,10 @@
 package aulas.Back.factory;
 
-import aulas.Back.Aula;
-import aulas.Back.RecursoTIC;
-import aulas.Back.TipoAulaEnum;
+import aulas.Back.aula.Aula;
+import aulas.Back.recursos.EstadoRecurso;
+import aulas.Back.recursos.RecursoTIC;
+import aulas.Back.aula.TipoAulaEnum;
 
-import java.util.List;
 import java.util.UUID;
 
 public class AulaTeoricaFactory implements AulaFactory {
@@ -17,8 +17,8 @@ public class AulaTeoricaFactory implements AulaFactory {
                 .capacidad(40)
                 .sedeId("S1")
                 .tipo(TipoAulaEnum.TEORICA)
-                .agregarRecurso(new RecursoTIC("4", "Pizarra", "Pizarra blanca", true, 8))
-                .agregarRecurso(new RecursoTIC("5", "Proyector", "Proyector básico", true, 8))
+                .agregarRecurso(new RecursoTIC("4", "Pizarra", "Pizarra blanca", EstadoRecurso.DISPONIBLE, 8))
+                .agregarRecurso(new RecursoTIC("5", "Proyector", "Proyector básico", EstadoRecurso.DISPONIBLE, 8))
                 .build();
         return aula;
     }

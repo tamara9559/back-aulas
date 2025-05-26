@@ -1,6 +1,6 @@
 package aulas.Back.flyweight;
 
-import aulas.Back.RecursoTIC;
+import aulas.Back.recursos.RecursoTIC;
 import java.util.List;
 
 /**

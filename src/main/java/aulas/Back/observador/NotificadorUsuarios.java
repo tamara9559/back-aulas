@@ -1,6 +1,6 @@
 package aulas.Back.observador;
 
-import aulas.Back.Aula;
+import aulas.Back.aula.Aula;
 
 /**
  * Observador concreto que notifica a los usuarios cuando hay un cambio de estado en un aula.
