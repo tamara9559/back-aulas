@@ -1,7 +1,8 @@
 package aulas.Back.controller;
 
+import aulas.Back.PrototipoAula;
 import aulas.Back.aula.Aula;
-import aulas.Back.aula.AulaRecurso;
+import aulas.Back.comando.*;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.service.AulaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,6 @@ public class AulaController {
                 : ResponseEntity.notFound().build();
     }
 
-    // 🔍 Listar recursos de un aula (ya no vienen directamente desde Aula)
     @GetMapping("/{id}/recursos")
     public ResponseEntity<List<RecursoTIC>> listarRecursos(@PathVariable String id) {
         List<RecursoTIC> recursos = aulaService.listarRecursos(id);
@@ -91,4 +91,48 @@ public class AulaController {
                 ? ResponseEntity.ok(recursos)
                 : ResponseEntity.notFound().build();
     }
+
+    // ✅ NUEVO: Crear aula clonando un prototipo (Prototype)
+    @PostMapping("/clonar/{tipo}")
+    public ResponseEntity<Aula> clonarAulaDesdePrototipo(
+            @PathVariable String tipo,
+            @RequestParam String nombre,
+            @RequestParam String sedeId
+    ) {
+        Aula clon = PrototipoAula.clonar(tipo);
+        if (clon == null) return ResponseEntity.notFound().build();
+
+        clon.setNombre(nombre);
+        clon.setSedeId(sedeId);
+
+        Aula guardada = aulaService.crearAula(clon);
+        return ResponseEntity.ok(guardada);
+    }
+
+    // ✅ NUEVO: Reservar un aula (Command)
+    @PutMapping("/{id}/reservar")
+    public ResponseEntity<String> reservarAula(@PathVariable String id) {
+        Aula aula = aulaService.obtenerAula(id);
+        if (aula == null) return ResponseEntity.notFound().build();
+
+        ControladorCommand controlador = new ControladorCommand();
+        controlador.ejecutar(new ComandoReservar(aula));
+
+        aulaService.crearAula(aula);
+        return ResponseEntity.ok("Aula reservada con éxito.");
+    }
+
+    // ✅ NUEVO: Liberar un aula (Command)
+    @PutMapping("/{id}/liberar")
+    public ResponseEntity<String> liberarAula(@PathVariable String id) {
+        Aula aula = aulaService.obtenerAula(id);
+        if (aula == null) return ResponseEntity.notFound().build();
+
+        ControladorCommand controlador = new ControladorCommand();
+        controlador.ejecutar(new ComandoLiberar(aula));
+
+        aulaService.crearAula(aula);
+        return ResponseEntity.ok("Aula liberada con éxito.");
+    }
 }
+
