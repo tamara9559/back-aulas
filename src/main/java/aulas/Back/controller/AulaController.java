@@ -1,6 +1,7 @@
 package aulas.Back.controller;
 
 import aulas.Back.aula.Aula;
+import aulas.Back.aula.AulaRecurso;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.service.AulaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import java.util.List;
 /**
  * Controlador REST para la gestión de aulas.
  * Expone endpoints para listar, crear, obtener, eliminar y modificar aulas.
- *
- * @author Jan
  */
 @RestController
 @RequestMapping("/aulas")
@@ -21,95 +20,75 @@ public class AulaController {
 
     private final AulaService aulaService;
 
-    /**
-     * Constructor para AulaController.
-     * @param aulaService Servicio de gestión de aulas.
-     */
     @Autowired
     public AulaController(AulaService aulaService) {
         this.aulaService = aulaService;
     }
 
-    /**
-     * Lista todas las aulas disponibles.
-     * @return Lista de aulas.
-     */
     @GetMapping
     public List<Aula> listarAulas() {
         return aulaService.listarAulas();
     }
 
-    /**
-     * Crea una nueva aula.
-     * @param aula Aula a crear.
-     * @return Aula creada.
-     */
     @PostMapping
     public Aula crearAula(@RequestBody Aula aula) {
         return aulaService.crearAula(aula);
     }
 
-    /**
-     * Obtiene una aula por su identificador.
-     * @param id Identificador del aula.
-     * @return Aula encontrada o null si no existe.
-     */
     @GetMapping("/{id}")
     public Aula obtenerAula(@PathVariable String id) {
         return aulaService.obtenerAula(id);
     }
 
-    /**
-     * Elimina una aula por su identificador.
-     * @param id Identificador del aula.
-     * @return true si se eliminó correctamente, false si no existe.
-     */
     @DeleteMapping("/{id}")
     public boolean eliminarAula(@PathVariable String id) {
         return aulaService.eliminarAula(id);
     }
 
-    /**
-     * Modifica una aula existente.
-     * @param id Identificador del aula a modificar.
-     * @param aula Datos actualizados del aula.
-     * @return ResponseEntity con el aula modificada o 404 si no existe.
-     */
     @PutMapping("/{id}")
     public ResponseEntity<Aula> modificarAula(@PathVariable String id, @RequestBody Aula aula) {
         Aula modificada = aulaService.modificarAula(id, aula);
-        if (modificada != null) {
-            return ResponseEntity.ok(modificada);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return modificada != null ? ResponseEntity.ok(modificada) : ResponseEntity.notFound().build();
     }
-    @PutMapping("/{id}/recursos")
-    public ResponseEntity<Aula> asignarRecursos(
+
+    // ✅ Asignar uno o varios recursos a un aula (via AulaRecurso)
+    @PostMapping("/{id}/recursos")
+    public ResponseEntity<String> asignarRecursos(
             @PathVariable String id,
             @RequestBody List<RecursoTIC> recursos
     ) {
-        Aula aula = aulaService.asignarRecursos(id, recursos);
-        return aula != null ? ResponseEntity.ok(aula) : ResponseEntity.notFound().build();
+        boolean resultado = aulaService.asignarRecurso(id, recursos);
+        return resultado
+                ? ResponseEntity.ok("Recursos asignados correctamente.")
+                : ResponseEntity.badRequest().body("Error al asignar los recursos.");
+    }
+
+    // ✅ Remover recurso de un aula (via AulaRecurso)
+    @DeleteMapping("/{id}/recursos")
+    public ResponseEntity<String> removerRecurso(
+            @PathVariable String id,
+            @RequestBody RecursoTIC recurso
+    ) {
+        boolean resultado = aulaService.removerRecurso(id, recurso);
+        return resultado
+                ? ResponseEntity.ok("Recurso removido correctamente.")
+                : ResponseEntity.badRequest().body("Error al remover el recurso.");
     }
 
     @GetMapping("/{id}/estado-descripcion")
     public ResponseEntity<String> obtenerDescripcionEstado(@PathVariable String id) {
         Aula aula = aulaService.obtenerAula(id);
-        if (aula != null) {
-            return ResponseEntity.ok(aula.getEstadoActual().descripcion());
-        }
-        return ResponseEntity.notFound().build();
+        return aula != null
+                ? ResponseEntity.ok(aula.getEstadoActual().descripcion())
+                : ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}/recursos/remover")
-    public ResponseEntity<Aula> removerRecurso(
-            @PathVariable String id,
-            @RequestBody RecursoTIC recurso) {
-        Aula aula = aulaService.removerRecurso(id, recurso);
-        return aula != null ? ResponseEntity.ok(aula) : ResponseEntity.notFound().build();
+    // 🔍 Listar recursos de un aula (ya no vienen directamente desde Aula)
+    @GetMapping("/{id}/recursos")
+    public ResponseEntity<List<RecursoTIC>> listarRecursos(@PathVariable String id) {
+        List<RecursoTIC> recursos = aulaService.listarRecursos(id);
+        return recursos != null
+                ? ResponseEntity.ok(recursos)
+                : ResponseEntity.notFound().build();
     }
-
-
-
 }

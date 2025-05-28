@@ -3,7 +3,6 @@ package aulas.Back.aula;
 import aulas.Back.estado.*;
 import aulas.Back.observador.AuditorEventos;
 import aulas.Back.observador.ObservadorAula;
-import aulas.Back.recursos.RecursoTIC;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,8 +33,6 @@ public class Aula implements Cloneable {
     @Setter @Getter
     private EstadoAulaEnum estado = EstadoAulaEnum.LIBRE;
 
-    private List<RecursoTIC> recursos = new ArrayList<>();
-
     @JsonIgnore
     private EstadoAula estadoActual = new EstadoLibre();
 
@@ -44,32 +41,13 @@ public class Aula implements Cloneable {
 
     public Aula() {}
 
-    public Aula(String id, String nombre, int capacidad, String sedeId, TipoAulaEnum tipo, EstadoAulaEnum estado, List<RecursoTIC> recursos) {
+    public Aula(String id, String nombre, int capacidad, String sedeId, TipoAulaEnum tipo, EstadoAulaEnum estado) {
         this.id = id;
         this.nombre = nombre;
         this.capacidad = capacidad;
         this.sedeId = sedeId;
         this.tipo = tipo;
         this.estado = estado;
-        this.recursos = recursos != null ? recursos : new ArrayList<>();
-    }
-
-    public List<RecursoTIC> getRecursos() {
-        return recursos;
-    }
-
-    public void setRecursos(List<RecursoTIC> recursos) {
-        this.recursos = recursos;
-    }
-
-    public void asignarRecursos(List<RecursoTIC> recursos) {
-        this.recursos.addAll(recursos);
-        notificarObservadores();
-    }
-
-    public void removerRecursos(List<RecursoTIC> recursos) {
-        this.recursos.removeAll(recursos);
-        notificarObservadores();
     }
 
     public EstadoAula getEstadoActual() {
@@ -85,17 +63,6 @@ public class Aula implements Cloneable {
         return getEstadoActual().descripcion();
     }
 
-    @Override
-    public Aula clone() {
-        try {
-            Aula copia = (Aula) super.clone();
-            copia.recursos = new ArrayList<>(this.recursos);
-            return copia;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
-    }
-
     public void agregarObservador(ObservadorAula observador) {
         this.observadores.add(observador);
     }
@@ -106,6 +73,16 @@ public class Aula implements Cloneable {
         }
     }
 
+    @Override
+    public Aula clone() {
+        try {
+            return (Aula) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    // Builder actualizado sin recursos
     public static class AulaBuilder {
         private String id;
         private String nombre;
@@ -113,7 +90,6 @@ public class Aula implements Cloneable {
         private String sedeId;
         private TipoAulaEnum tipo;
         private EstadoAulaEnum estado = EstadoAulaEnum.LIBRE;
-        private List<RecursoTIC> recursos = new ArrayList<>();
 
         public AulaBuilder id(String id) {
             this.id = id;
@@ -145,15 +121,11 @@ public class Aula implements Cloneable {
             return this;
         }
 
-        public AulaBuilder agregarRecurso(RecursoTIC recurso) {
-            this.recursos.add(recurso);
-            return this;
-        }
-
         public Aula build() {
-            Aula aula = new Aula(id, nombre, capacidad, sedeId, tipo, estado, recursos);
+            Aula aula = new Aula(id, nombre, capacidad, sedeId, tipo, estado);
             aula.agregarObservador(new AuditorEventos());
             return aula;
         }
     }
 }
+

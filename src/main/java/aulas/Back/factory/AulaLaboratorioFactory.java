@@ -1,12 +1,14 @@
 package aulas.Back.factory;
 
 import aulas.Back.aula.Aula;
-import aulas.Back.recursos.EstadoRecurso;
-import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.aula.TipoAulaEnum;
 
 import java.util.UUID;
 
+/**
+ * Factory para crear una instancia preconfigurada de un Aula de tipo Laboratorio.
+ * Los recursos deben asignarse posteriormente mediante AulaRecursoService.
+ */
 public class AulaLaboratorioFactory implements AulaFactory {
 
     @Override
@@ -17,10 +19,8 @@ public class AulaLaboratorioFactory implements AulaFactory {
                 .capacidad(25)
                 .sedeId("S1")
                 .tipo(TipoAulaEnum.LABORATORIO)
-                .agregarRecurso(new RecursoTIC("6", "Computadores", "PCs de alto rendimiento", EstadoRecurso.DISPONIBLE, 8))
-                .agregarRecurso(new RecursoTIC("7", "Red LAN", "Conexión LAN dedicada", EstadoRecurso.DISPONIBLE, 8))
-                .agregarRecurso(new RecursoTIC("8", "Proyector", "Proyector multimedia", EstadoRecurso.DISPONIBLE, 8))
                 .build();
     }
 }
+
 

@@ -1,45 +1,34 @@
 package aulas.Back.service;
 
 import aulas.Back.aula.Aula;
+import aulas.Back.aula.AulaRecurso;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.repository.AulaRepository;
+import aulas.Back.repository.AulaRecursoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Servicio para la gestión de aulas.
- * Proporciona métodos para listar, crear, obtener, eliminar y modificar aulas.
- *
- * @author Jan
- */
 @Service
 public class AulaService {
 
     private final AulaRepository aulaRepository;
+    private final AulaRecursoRepository aulaRecursoRepository;
+    private final RecursoService recursoService;
 
-    /**
-     * Constructor para AulaService.
-     * @param aulaRepository Repositorio de aulas.
-     */
-    public AulaService(AulaRepository aulaRepository) {
+    public AulaService(AulaRepository aulaRepository,
+                       AulaRecursoRepository aulaRecursoRepository,
+                       RecursoService recursoService) {
         this.aulaRepository = aulaRepository;
+        this.aulaRecursoRepository = aulaRecursoRepository;
+        this.recursoService = recursoService;
     }
 
-    /**
-     * Lista todas las aulas disponibles en la base de datos.
-     * @return Lista de aulas.
-     */
     public List<Aula> listarAulas() {
         return aulaRepository.findAll();
     }
 
-    /**
-     * Crea una nueva aula y la guarda en la base de datos.
-     * @param aula Aula a crear.
-     * @return Aula creada.
-     */
     public Aula crearAula(Aula aula) {
         boolean existe = aulaRepository.findAll().stream()
                 .anyMatch(existing -> existing.getNombre().equalsIgnoreCase(aula.getNombre()));
@@ -51,35 +40,19 @@ public class AulaService {
         return aulaRepository.save(aula);
     }
 
-    /**
-     * Obtiene una aula por su identificador.
-     * @param id Identificador del aula.
-     * @return Aula encontrada o null si no existe.
-     */
     public Aula obtenerAula(String id) {
-        Optional<Aula> aula = aulaRepository.findById(id);
-        return aula.orElse(null);
+        return aulaRepository.findById(id).orElse(null);
     }
 
-    /**
-     * Elimina una aula por su identificador.
-     * @param id Identificador del aula.
-     * @return true si se eliminó correctamente, false si no existe.
-     */
     public boolean eliminarAula(String id) {
         if (aulaRepository.existsById(id)) {
             aulaRepository.deleteById(id);
+            aulaRecursoRepository.deleteAll(aulaRecursoRepository.findByAulaId(id));
             return true;
         }
         return false;
     }
 
-    /**
-     * Modifica una aula existente.
-     * @param id Identificador del aula a modificar.
-     * @param aulaDatos Datos actualizados del aula.
-     * @return Aula modificada o null si no existe.
-     */
     public Aula modificarAula(String id, Aula aulaDatos) {
         Optional<Aula> aulaExistente = aulaRepository.findById(id);
         if (aulaExistente.isPresent()) {
@@ -89,44 +62,50 @@ public class AulaService {
             aula.setSedeId(aulaDatos.getSedeId());
             aula.setTipo(aulaDatos.getTipo());
             return aulaRepository.save(aula);
-        } else {
-            return null;
         }
+        return null;
     }
-    public Aula asignarRecursos(String id, List<RecursoTIC> nuevosRecursos) {
-        Optional<Aula> optAula = aulaRepository.findById(id);
-        if (optAula.isPresent()) {
-            Aula aula = optAula.get();
 
-            // Filtrar recursos que ya están asignados
-            List<String> idsExistentes = aula.getRecursos().stream()
-                    .map(RecursoTIC::getId)
-                    .toList();
-
-            boolean hayDuplicados = nuevosRecursos.stream()
-                    .anyMatch(r -> idsExistentes.contains(r.getId()));
-
-            if (hayDuplicados) {
-                throw new IllegalArgumentException("Uno o más recursos ya están asignados al aula.");
+    public boolean asignarRecurso(String aulaId, List<RecursoTIC> recursos) {
+        for (RecursoTIC recurso : recursos) {
+            RecursoTIC existente = recursoService.obtenerRecurso(recurso.getId());
+            if (existente == null) {
+                throw new IllegalArgumentException("Recurso no encontrado: " + recurso.getId());
             }
 
-            aula.asignarRecursos(nuevosRecursos);
-            return aulaRepository.save(aula);
-        }
+            if (existente.getCantidad() < recurso.getCantidad()) {
+                throw new IllegalArgumentException("Cantidad insuficiente del recurso: " + existente.getNombre());
+            }
 
-        return null;
+            if (aulaRecursoRepository.existsByAulaIdAndRecursoId(aulaId, recurso.getId())) {
+                throw new IllegalArgumentException("Recurso ya asignado: " + existente.getNombre());
+            }
+
+            // Descontar stock y guardar relación
+            existente.setCantidad(existente.getCantidad() - recurso.getCantidad());
+            recursoService.modificarRecurso(existente.getId(), existente);
+
+            AulaRecurso ar = new AulaRecurso(aulaId, recurso.getId(), recurso.getCantidad());
+            aulaRecursoRepository.save(ar);
+        }
+        return true;
     }
 
-
-    public Aula removerRecurso(String aulaId, RecursoTIC recurso) {
-        Optional<Aula> optAula = aulaRepository.findById(aulaId);
-        if (optAula.isPresent()) {
-            Aula aula = optAula.get();
-            aula.removerRecursos(List.of(recurso));
-            return aulaRepository.save(aula);
+    public boolean removerRecurso(String aulaId, RecursoTIC recurso) {
+        if (aulaRecursoRepository.existsByAulaIdAndRecursoId(aulaId, recurso.getId())) {
+            aulaRecursoRepository.deleteByAulaIdAndRecursoId(aulaId, recurso.getId());
+            return true;
         }
-        return null;
+        return false;
     }
 
-
+    public List<RecursoTIC> listarRecursos(String aulaId) {
+        List<AulaRecurso> relaciones = aulaRecursoRepository.findByAulaId(aulaId);
+        return relaciones.stream()
+                .map(rel -> recursoService.obtenerRecurso(rel.getRecursoId()))
+                .filter(r -> r != null)
+                .toList();
+    }
 }
+
+
