@@ -52,7 +52,7 @@ public class AulaController {
         return modificada != null ? ResponseEntity.ok(modificada) : ResponseEntity.notFound().build();
     }
 
-    // ✅ Asignar uno o varios recursos a un aula (via AulaRecurso)
+    //  Asignar uno o varios recursos a un aula (via AulaRecurso)
     @PostMapping("/{id}/recursos")
     public ResponseEntity<String> asignarRecursos(
             @PathVariable String id,
@@ -64,7 +64,7 @@ public class AulaController {
                 : ResponseEntity.badRequest().body("Error al asignar los recursos.");
     }
 
-    // ✅ Remover recurso de un aula (via AulaRecurso)
+    //  Remover recurso de un aula (via AulaRecurso)
     @DeleteMapping("/{id}/recursos")
     public ResponseEntity<String> removerRecurso(
             @PathVariable String id,
@@ -92,7 +92,7 @@ public class AulaController {
                 : ResponseEntity.notFound().build();
     }
 
-    // ✅ NUEVO: Crear aula clonando un prototipo (Prototype)
+    //  Crear aula clonando un prototipo (Prototype)
     @PostMapping("/clonar/{tipo}")
     public ResponseEntity<Aula> clonarAulaDesdePrototipo(
             @PathVariable String tipo,
@@ -109,7 +109,7 @@ public class AulaController {
         return ResponseEntity.ok(guardada);
     }
 
-    // ✅ NUEVO: Reservar un aula (Command)
+    //  Reservar un aula (Command)
     @PutMapping("/{id}/reservar")
     public ResponseEntity<String> reservarAula(@PathVariable String id) {
         Aula aula = aulaService.obtenerAula(id);
@@ -122,7 +122,7 @@ public class AulaController {
         return ResponseEntity.ok("Aula reservada con éxito.");
     }
 
-    // ✅ NUEVO: Liberar un aula (Command)
+    // Liberar un aula (Command)
     @PutMapping("/{id}/liberar")
     public ResponseEntity<String> liberarAula(@PathVariable String id) {
         Aula aula = aulaService.obtenerAula(id);
