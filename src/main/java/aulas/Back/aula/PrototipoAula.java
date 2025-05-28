@@ -1,6 +1,4 @@
-package aulas.Back;
-
-import aulas.Back.aula.Aula;
+package aulas.Back.aula;
 
 import java.util.HashMap;
 import java.util.Map;
