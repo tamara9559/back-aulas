@@ -2,7 +2,6 @@ package aulas.Back.controller;
 
 import aulas.Back.aula.PrototipoAula;
 import aulas.Back.aula.Aula;
-import aulas.Back.comando.*;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.service.AulaService;
 import org.springframework.beans.factory.annotation.Autowired;
