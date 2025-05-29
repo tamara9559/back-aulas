@@ -82,7 +82,6 @@ public class Aula implements Cloneable {
         }
     }
 
-    // Builder actualizado sin recursos
     public static class AulaBuilder {
         private String id;
         private String nombre;

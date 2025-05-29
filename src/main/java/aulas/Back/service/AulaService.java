@@ -2,6 +2,8 @@ package aulas.Back.service;
 
 import aulas.Back.aula.Aula;
 import aulas.Back.aula.AulaRecurso;
+import aulas.Back.decorador.AulaConcreta;
+import aulas.Back.decorador.IAula;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.repository.AulaRepository;
 import aulas.Back.repository.AulaRecursoRepository;
@@ -106,6 +108,18 @@ public class AulaService {
                 .filter(r -> r != null)
                 .toList();
     }
+
+    public void crearAulaDesdeDecorador(IAula decorada) {
+        Aula aula = ((AulaConcreta) decorada).getAula();
+        aulaRepository.save(aula);
+
+        List<RecursoTIC> recursos = decorada.getRecursos();
+        for (RecursoTIC recurso : recursos) {
+            AulaRecurso ar = new AulaRecurso(aula.getId(), recurso.getId(), recurso.getCantidad());
+            aulaRecursoRepository.save(ar);
+        }
+    }
+
 }
 
 
