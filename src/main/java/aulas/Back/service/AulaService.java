@@ -1,5 +1,6 @@
 package aulas.Back.service;
 
+import aulas.Back.adapter.SedeApiClient;
 import aulas.Back.aula.Aula;
 import aulas.Back.aula.AulaRecurso;
 import aulas.Back.decorador.AulaConcreta;
@@ -8,6 +9,7 @@ import aulas.Back.factory.AulaFactory;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.repository.AulaRepository;
 import aulas.Back.repository.AulaRecursoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -125,6 +127,18 @@ public class AulaService {
         Aula aula = factory.crearAula();
         return aulaRepository.save(aula);
     }
+
+    @Autowired
+    private SedeApiClient sedeApiClient;
+
+    public Aula crearAulaApi(Aula aula) {
+        if (!sedeApiClient.existeSedePorId(aula.getSedeId())) {
+            throw new IllegalArgumentException("La sede con ID " + aula.getSedeId() + " no existe.");
+        }
+
+        return aulaRepository.save(aula);
+    }
+
 
 
 }

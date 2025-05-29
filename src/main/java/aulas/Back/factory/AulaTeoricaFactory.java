@@ -5,6 +5,7 @@ import aulas.Back.aula.TipoAulaEnum;
 
 import java.util.UUID;
 
+import aulas.Back.builder.AulaBuilder;
 import aulas.Back.flyweight.ConfiguracionAula;
 import aulas.Back.flyweight.ConfiguracionAulaFactory;
 import aulas.Back.recursos.EstadoRecurso;
@@ -24,7 +25,7 @@ public class AulaTeoricaFactory implements AulaFactory {
 
         ConfiguracionAula config = ConfiguracionAulaFactory.obtenerConfiguracion(40, recursos);
 
-        return new Aula.AulaBuilder()
+        return new AulaBuilder()
                 .id(UUID.randomUUID().toString())
                 .nombre("Aula Teórica")
                 .capacidad(40)

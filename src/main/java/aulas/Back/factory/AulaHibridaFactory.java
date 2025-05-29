@@ -2,6 +2,7 @@ package aulas.Back.factory;
 
 import aulas.Back.aula.Aula;
 import aulas.Back.aula.TipoAulaEnum;
+import aulas.Back.builder.AulaBuilder;
 import aulas.Back.decorador.AulaAireAcondicionado;
 import aulas.Back.decorador.AulaConcreta;
 import aulas.Back.decorador.AulaProyector;
@@ -23,21 +24,20 @@ public class AulaHibridaFactory implements AulaFactory {
         );
         ConfiguracionAula config = ConfiguracionAulaFactory.obtenerConfiguracion(30, recursosBase);
 
-        Aula aulaBase = new Aula.AulaBuilder()
+        Aula aulaBase = new AulaBuilder()
                 .id(UUID.randomUUID().toString())
                 .nombre("Aula Híbrida")
                 .capacidad(config.getCapacidad())
                 .sedeId("S1")
                 .tipo(TipoAulaEnum.HIBRIDA)
+                .configuracion(config)
                 .build();
 
         IAula decorada = new AulaConcreta(aulaBase);
         decorada = new AulaProyector(decorada);
         decorada = new AulaAireAcondicionado(decorada);
 
-        // Opcional: aquí puedes usar decorada.getRecursos() para registrar en BD
         List<RecursoTIC> recursos = decorada.getRecursos();
-        // guardarRecursosEnAula(aulaBase.getId(), recursos); ← este paso sería con el AulaRecursoService
 
         return aulaBase;
     }

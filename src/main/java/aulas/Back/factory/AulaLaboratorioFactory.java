@@ -2,6 +2,7 @@ package aulas.Back.factory;
 
 import aulas.Back.aula.Aula;
 import aulas.Back.aula.TipoAulaEnum;
+import aulas.Back.builder.AulaBuilder;
 import aulas.Back.flyweight.ConfiguracionAula;
 import aulas.Back.flyweight.ConfiguracionAulaFactory;
 import aulas.Back.recursos.EstadoRecurso;
@@ -22,7 +23,7 @@ public class AulaLaboratorioFactory implements AulaFactory {
 
         ConfiguracionAula config = ConfiguracionAulaFactory.obtenerConfiguracion(25, recursos);
 
-        return new Aula.AulaBuilder()
+        return new AulaBuilder()
                 .id(UUID.randomUUID().toString())
                 .nombre("Aula de Laboratorio")
                 .capacidad(25)
