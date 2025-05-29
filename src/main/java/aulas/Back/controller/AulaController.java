@@ -2,6 +2,10 @@ package aulas.Back.controller;
 
 import aulas.Back.aula.PrototipoAula;
 import aulas.Back.aula.Aula;
+import aulas.Back.factory.AulaFactory;
+import aulas.Back.factory.AulaHibridaFactory;
+import aulas.Back.factory.AulaLaboratorioFactory;
+import aulas.Back.factory.AulaTeoricaFactory;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.service.AulaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +111,28 @@ public class AulaController {
         Aula guardada = aulaService.crearAula(clon);
         return ResponseEntity.ok(guardada);
     }
+
+    @PostMapping("/factory/teorica")
+    public ResponseEntity<Aula> crearAulaTeorica() {
+        AulaFactory factory = new AulaTeoricaFactory();
+        Aula aula = aulaService.crearAulaDesdeFactory(factory);
+        return ResponseEntity.ok(aula);
+    }
+
+    @PostMapping("/factory/hibrida")
+    public ResponseEntity<Aula> crearAulaHibrida() {
+        AulaFactory factory = new AulaHibridaFactory();
+        Aula aula = aulaService.crearAulaDesdeFactory(factory);
+        return ResponseEntity.ok(aula);
+    }
+
+    @PostMapping("/factory/laboratorio")
+    public ResponseEntity<Aula> crearAulaLaboratorio() {
+        AulaFactory factory = new AulaLaboratorioFactory();
+        Aula aula = aulaService.crearAulaDesdeFactory(factory);
+        return ResponseEntity.ok(aula);
+    }
+
 
 
 }

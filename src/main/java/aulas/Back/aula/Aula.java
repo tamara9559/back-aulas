@@ -1,6 +1,7 @@
 package aulas.Back.aula;
 
 import aulas.Back.estado.*;
+import aulas.Back.flyweight.ConfiguracionAula;
 import aulas.Back.observador.AuditorEventos;
 import aulas.Back.observador.ObservadorAula;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -83,6 +84,7 @@ public class Aula implements Cloneable {
     }
 
     public static class AulaBuilder {
+        private ConfiguracionAula configuracion;
         private String id;
         private String nombre;
         private int capacidad;
@@ -122,9 +124,28 @@ public class Aula implements Cloneable {
 
         public Aula build() {
             Aula aula = new Aula(id, nombre, capacidad, sedeId, tipo, estado);
+            aula.setConfiguracion(configuracion);
             aula.agregarObservador(new AuditorEventos());
             return aula;
         }
+
+
+        public AulaBuilder configuracion(ConfiguracionAula configuracion) {
+            this.configuracion = configuracion;
+            return this;
+        }
     }
+
+    @JsonIgnore
+    private ConfiguracionAula configuracion;
+
+    public void setConfiguracion(ConfiguracionAula configuracion) {
+        this.configuracion = configuracion;
+    }
+
+    public ConfiguracionAula getConfiguracion() {
+        return configuracion;
+    }
+
 }
 

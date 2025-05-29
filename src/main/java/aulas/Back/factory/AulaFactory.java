@@ -23,6 +23,6 @@ public interface AulaFactory {
      *
      * @return Aula creada.
      */
-    Aula crearAula();  // Crear aula usando configuración Flyweight
+    Aula crearAula();
 }
 

@@ -4,6 +4,7 @@ import aulas.Back.aula.Aula;
 import aulas.Back.aula.AulaRecurso;
 import aulas.Back.decorador.AulaConcreta;
 import aulas.Back.decorador.IAula;
+import aulas.Back.factory.AulaFactory;
 import aulas.Back.recursos.RecursoTIC;
 import aulas.Back.repository.AulaRepository;
 import aulas.Back.repository.AulaRecursoRepository;
@@ -119,6 +120,12 @@ public class AulaService {
             aulaRecursoRepository.save(ar);
         }
     }
+
+    public Aula crearAulaDesdeFactory(AulaFactory factory) {
+        Aula aula = factory.crearAula();
+        return aulaRepository.save(aula);
+    }
+
 
 }
 

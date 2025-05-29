@@ -6,28 +6,44 @@ import aulas.Back.decorador.AulaAireAcondicionado;
 import aulas.Back.decorador.AulaConcreta;
 import aulas.Back.decorador.AulaProyector;
 import aulas.Back.decorador.IAula;
+import aulas.Back.flyweight.ConfiguracionAula;
+import aulas.Back.flyweight.ConfiguracionAulaFactory;
+import aulas.Back.recursos.RecursoTIC;
 
+import java.util.List;
 import java.util.UUID;
 
 public class AulaHibridaFactory implements AulaFactory {
 
     @Override
     public Aula crearAula() {
+        List<RecursoTIC> recursosBase = List.of(
+                new RecursoTIC("1", "Proyector", "Proyector digital", null, 1),
+                new RecursoTIC("2", "Aire Acondicionado", "Aire tipo split", null, 1)
+        );
+        ConfiguracionAula config = ConfiguracionAulaFactory.obtenerConfiguracion(30, recursosBase);
+
         Aula aulaBase = new Aula.AulaBuilder()
                 .id(UUID.randomUUID().toString())
                 .nombre("Aula Híbrida")
-                .capacidad(30)
+                .capacidad(config.getCapacidad())
                 .sedeId("S1")
                 .tipo(TipoAulaEnum.HIBRIDA)
                 .build();
 
         IAula decorada = new AulaConcreta(aulaBase);
-        decorada = new AulaAireAcondicionado(decorada);
         decorada = new AulaProyector(decorada);
+        decorada = new AulaAireAcondicionado(decorada);
 
-        return ((AulaConcreta) decorada).getAula();
+        // Opcional: aquí puedes usar decorada.getRecursos() para registrar en BD
+        List<RecursoTIC> recursos = decorada.getRecursos();
+        // guardarRecursosEnAula(aulaBase.getId(), recursos); ← este paso sería con el AulaRecursoService
 
+        return aulaBase;
     }
 }
+
+
+
 
 

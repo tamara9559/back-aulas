@@ -1,40 +1,37 @@
 package aulas.Back.flyweight;
 
 import aulas.Back.recursos.RecursoTIC;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Clase que representa la configuración compartida (flyweight) de un aula,
- * incluyendo su capacidad y los recursos TIC asociados.
- * <p>
- * Esta clase forma parte de la implementación del patrón Flyweight, facilitando
- * el uso eficiente de memoria al compartir configuraciones comunes entre múltiples aulas.
- * </p>
- *
- * Ejemplo de uso:
- * <pre>
- *     List&lt;RecursoTIC&gt; recursos = ...;
- *     ConfiguracionAula config = new ConfiguracionAula(40, recursos);
- * </pre>
- *
- * @author Jan
- */
-public class ConfiguracionAula {
-    /** Capacidad máxima del aula. */
-    public int capacidad;
+public final class ConfiguracionAula {
+    private final int capacidad;
+    private final List<RecursoTIC> recursos;
 
-    /** Lista de recursos TIC asociados al aula. */
-    public List<RecursoTIC> recursos;
-
-    /**
-     * Constructor para crear una configuración de aula.
-     *
-     * @param capacidad Capacidad máxima de alumnos que admite el aula.
-     * @param recursos  Lista de recursos TIC disponibles en el aula.
-     */
     public ConfiguracionAula(int capacidad, List<RecursoTIC> recursos) {
         this.capacidad = capacidad;
-        this.recursos = recursos;
+        this.recursos = Collections.unmodifiableList(recursos);
     }
+
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public List<RecursoTIC> getRecursos() {
+        return recursos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ConfiguracionAula other)) return false;
+        return this.capacidad == other.capacidad && this.recursos.equals(other.recursos);
+    }
+
+    @Override
+    public int hashCode() {
+        return capacidad * 31 + recursos.hashCode();
+    }
+
 }
+
 
