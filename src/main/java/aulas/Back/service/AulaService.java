@@ -66,10 +66,15 @@ public class AulaService {
             aula.setCapacidad(aulaDatos.getCapacidad());
             aula.setSedeId(aulaDatos.getSedeId());
             aula.setTipo(aulaDatos.getTipo());
+
+            aula.notificarObservadores();
+
             return aulaRepository.save(aula);
+        } else {
+            return null;
         }
-        return null;
     }
+
 
     public boolean asignarRecurso(String aulaId, List<RecursoTIC> recursos) {
         for (RecursoTIC recurso : recursos) {
