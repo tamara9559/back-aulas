@@ -23,7 +23,7 @@ import aulas.back.observador.AuditorEventos;
  *         .tipo(TipoAulaEnum.TEORICA)
  *         .estado(EstadoAulaEnum.LIBRE)
  *         .configuracion(configuracionAula)
- *         .build();
+ *         .build(auditorEventos); // <-- PASA LA INSTANCIA INYECTADA
  * </pre>
  *
  * @author Jan
@@ -75,13 +75,13 @@ public class AulaBuilder {
     /**
      * Construye una nueva instancia de {@link Aula} con los valores especificados en el builder.
      *
+     * @param auditorEventos Instancia de AuditorEventos proporcionada por Spring.
      * @return Instancia de {@link Aula}.
      */
-    public Aula build() {
+    public Aula build(AuditorEventos auditorEventos) {
         Aula aula = new Aula(id, nombre, capacidad, sedeId, tipo, estado);
         aula.setConfiguracion(configuracion);
-        aula.agregarObservador(new AuditorEventos());
+        aula.agregarObservador(auditorEventos); // Usa la instancia inyectada
         return aula;
     }
 }
-

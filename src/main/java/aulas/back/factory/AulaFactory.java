@@ -1,6 +1,7 @@
 package aulas.back.factory;
 
 import aulas.back.aula.Aula;
+import aulas.back.observador.AuditorEventos;
 
 /**
  * Interfaz para la creación de instancias de {@link Aula} utilizando el patrón Factory.
@@ -24,5 +25,7 @@ public interface AulaFactory {
      * @return Aula creada.
      */
     Aula crearAula();
+
+    Aula crearAula(AuditorEventos auditorEventos);
 }
 

@@ -40,7 +40,7 @@ public class AuditoriaEvento {
     private String tipoOperacion;
     private String descripcion;
     private Date fecha = new Date();
-
+    private AuditoriaEvento auditoriaEvento;
     /**
      * Constructor de negocio que inicializa un evento de auditoría con los datos más relevantes.
      * La fecha se inicializa automáticamente al momento de la creación.

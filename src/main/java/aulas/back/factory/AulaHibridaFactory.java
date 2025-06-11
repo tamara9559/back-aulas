@@ -6,9 +6,9 @@ import aulas.back.builder.AulaBuilder;
 import aulas.back.decorador.AulaAireAcondicionado;
 import aulas.back.decorador.AulaConcreta;
 import aulas.back.decorador.AulaProyector;
-import aulas.back.decorador.IAula;
 import aulas.back.flyweight.ConfiguracionAula;
 import aulas.back.flyweight.ConfiguracionAulaFactory;
+import aulas.back.observador.AuditorEventos;
 import aulas.back.recursos.RecursoTIC;
 
 import java.util.List;
@@ -31,6 +31,11 @@ import java.util.UUID;
  */
 public class AulaHibridaFactory implements AulaFactory {
 
+    @Override
+    public Aula crearAula() {
+        return null;
+    }
+
     /**
      * Crea una nueva instancia de {@link Aula} de tipo híbrida,
      * equipada con proyector y aire acondicionado.
@@ -38,7 +43,7 @@ public class AulaHibridaFactory implements AulaFactory {
      * @return Aula híbrida configurada.
      */
     @Override
-    public Aula crearAula() {
+    public Aula crearAula(AuditorEventos auditorEventos) {
         // Recursos base: proyector y aire acondicionado
         List<RecursoTIC> recursosBase = List.of(
                 new RecursoTIC("1", "Proyector", "Proyector digital", null, 1),
@@ -54,7 +59,7 @@ public class AulaHibridaFactory implements AulaFactory {
                 .sedeId("S1")
                 .tipo(TipoAulaEnum.HIBRIDA)
                 .configuracion(config)
-                .build();
+                .build(auditorEventos);
         // Patrón Decorator para agregar funcionalidad y recursos
         new AulaAireAcondicionado(new AulaProyector(new AulaConcreta(aulaBase)));
         // Recupera la lista de recursos ya decorados (no se usa en la instancia base)

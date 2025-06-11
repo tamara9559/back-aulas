@@ -8,6 +8,7 @@ import java.util.UUID;
 import aulas.back.builder.AulaBuilder;
 import aulas.back.flyweight.ConfiguracionAula;
 import aulas.back.flyweight.ConfiguracionAulaFactory;
+import aulas.back.observador.AuditorEventos;
 import aulas.back.recursos.EstadoRecurso;
 import aulas.back.recursos.RecursoTIC;
 
@@ -30,14 +31,20 @@ import java.util.List;
  */
 public class AulaTeoricaFactory implements AulaFactory {
 
+    @Override
+    public Aula crearAula() {
+        return null;
+    }
+
     /**
      * Crea una nueva instancia de {@link Aula} de tipo teórica,
      * equipada con pizarra y proyector.
      *
      * @return Aula teórica configurada.
      */
+
     @Override
-    public Aula crearAula() {
+    public Aula crearAula(AuditorEventos auditorEventos) {
         List<RecursoTIC> recursos = List.of(
                 new RecursoTIC("1", "Pizarra", "Pizarra blanca", EstadoRecurso.DISPONIBLE, 1),
                 new RecursoTIC("2", "Proyector", "Proyector básico", EstadoRecurso.DISPONIBLE, 1)
@@ -52,7 +59,7 @@ public class AulaTeoricaFactory implements AulaFactory {
                 .sedeId("S1")
                 .tipo(TipoAulaEnum.TEORICA)
                 .configuracion(config)
-                .build();
+                .build(auditorEventos);
     }
 }
 
