@@ -1,4 +1,4 @@
-package aulas.back;
+package aulas.back.auditoria;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

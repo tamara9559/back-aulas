@@ -1,6 +1,6 @@
 package aulas.back.repository;
 
-import aulas.back.AuditoriaEvento;
+import aulas.back.auditoria.AuditoriaEvento;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

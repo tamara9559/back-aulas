@@ -5,7 +5,7 @@ import aulas.back.aula.TipoAulaEnum;
 import aulas.back.aula.AulaBuilder;
 import aulas.back.flyweight.ConfiguracionAula;
 import aulas.back.flyweight.ConfiguracionAulaFactory;
-import aulas.back.observador.AuditorEventos;
+import aulas.back.auditoria.AuditorEventos;
 import aulas.back.recursos.EstadoRecurso;
 import aulas.back.recursos.RecursoTIC;
 

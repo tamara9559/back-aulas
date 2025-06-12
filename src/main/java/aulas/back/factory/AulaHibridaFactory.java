@@ -8,7 +8,7 @@ import aulas.back.decorador.AulaConcreta;
 import aulas.back.decorador.AulaProyector;
 import aulas.back.flyweight.ConfiguracionAula;
 import aulas.back.flyweight.ConfiguracionAulaFactory;
-import aulas.back.observador.AuditorEventos;
+import aulas.back.auditoria.AuditorEventos;
 import aulas.back.recursos.RecursoTIC;
 
 import java.util.List;

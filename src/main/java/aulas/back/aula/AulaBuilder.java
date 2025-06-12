@@ -2,7 +2,7 @@ package aulas.back.aula;
 
 import aulas.back.estado.EstadoAulaEnum;
 import aulas.back.flyweight.ConfiguracionAula;
-import aulas.back.observador.AuditorEventos;
+import aulas.back.auditoria.AuditorEventos;
 
 /**
  * Implementa el patrón Builder para facilitar la construcción de objetos {@link Aula}.

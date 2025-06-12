@@ -1,7 +1,7 @@
-package aulas.back.observador;
+package aulas.back.auditoria;
 
-import aulas.back.AuditoriaEvento;
 import aulas.back.aula.Aula;
+import aulas.back.observador.ObservadorAula;
 import aulas.back.repository.AuditoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

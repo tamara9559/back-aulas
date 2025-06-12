@@ -1,5 +1,6 @@
 package aulas.back;
 
+import aulas.back.auditoria.AuditoriaEvento;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
