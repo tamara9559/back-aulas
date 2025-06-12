@@ -5,7 +5,7 @@ import aulas.back.aula.TipoAulaEnum;
 
 import java.util.UUID;
 
-import aulas.back.builder.AulaBuilder;
+import aulas.back.aula.AulaBuilder;
 import aulas.back.flyweight.ConfiguracionAula;
 import aulas.back.flyweight.ConfiguracionAulaFactory;
 import aulas.back.observador.AuditorEventos;

@@ -2,7 +2,7 @@ package aulas.back.factory;
 
 import aulas.back.aula.Aula;
 import aulas.back.aula.TipoAulaEnum;
-import aulas.back.builder.AulaBuilder;
+import aulas.back.aula.AulaBuilder;
 import aulas.back.decorador.AulaAireAcondicionado;
 import aulas.back.decorador.AulaConcreta;
 import aulas.back.decorador.AulaProyector;

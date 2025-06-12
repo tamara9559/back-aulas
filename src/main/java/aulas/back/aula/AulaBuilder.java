@@ -1,7 +1,5 @@
-package aulas.back.builder;
+package aulas.back.aula;
 
-import aulas.back.aula.Aula;
-import aulas.back.aula.TipoAulaEnum;
 import aulas.back.estado.EstadoAulaEnum;
 import aulas.back.flyweight.ConfiguracionAula;
 import aulas.back.observador.AuditorEventos;
