@@ -20,17 +20,13 @@ public class AulaService {
     private final AulaRepository aulaRepository;
     private final AulaRecursoRepository aulaRecursoRepository;
     private final RecursoService recursoService;
-    private SedeVerificationService sedeVerificationService;
-
 
     public AulaService(AulaRepository aulaRepository,
                        AulaRecursoRepository aulaRecursoRepository,
-                       RecursoService recursoService,
-                       SedeVerificationService sedeVerificationService) {
+                       RecursoService recursoService) {
         this.aulaRepository = aulaRepository;
         this.aulaRecursoRepository = aulaRecursoRepository;
         this.recursoService = recursoService;
-        this.sedeVerificationService = sedeVerificationService;
     }
 
     public List<Aula> listarAulas() {
@@ -136,16 +132,6 @@ public class AulaService {
         Aula aula = factory.crearAula();
         return aulaRepository.save(aula);
     }
-
-
-    public Aula crearAulaApi(Aula aula) {
-        if (!sedeVerificationService.existeSedePorId(aula.getSedeId())) {
-            throw new IllegalArgumentException("La sede con ID " + aula.getSedeId() + " no existe.");
-        }
-
-        return aulaRepository.save(aula);
-    }
-
 
 
 }
