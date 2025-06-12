@@ -11,7 +11,7 @@
 	<groupId>aulas</groupId>
 	<artifactId>Back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Back</name>
 	<description>back end para el modulo de aulas</description>
 	<url/>
