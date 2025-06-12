@@ -1,6 +1,5 @@
 package aulas.back.service;
 
-import aulas.back.adapter.SedeApiClient;
 import aulas.back.aula.Aula;
 import aulas.back.aula.AulaRecurso;
 import aulas.back.decorador.AulaConcreta;
@@ -21,16 +20,17 @@ public class AulaService {
     private final AulaRepository aulaRepository;
     private final AulaRecursoRepository aulaRecursoRepository;
     private final RecursoService recursoService;
-    private SedeApiClient finalSedeApiClient;
+    private SedeVerificationService sedeVerificationService;
 
 
     public AulaService(AulaRepository aulaRepository,
                        AulaRecursoRepository aulaRecursoRepository,
-                       RecursoService recursoService) {
+                       RecursoService recursoService,
+                       SedeVerificationService sedeVerificationService) {
         this.aulaRepository = aulaRepository;
         this.aulaRecursoRepository = aulaRecursoRepository;
         this.recursoService = recursoService;
-        this.finalSedeApiClient = null; // Placeholder initialization to avoid final field issues
+        this.sedeVerificationService = sedeVerificationService;
     }
 
     public List<Aula> listarAulas() {
@@ -69,6 +69,7 @@ public class AulaService {
             aula.setCapacidad(aulaDatos.getCapacidad());
             aula.setSedeId(aulaDatos.getSedeId());
             aula.setTipo(aulaDatos.getTipo());
+            aula.setEstado(aulaDatos.getEstado());
 
             aula.notificarObservadores();
 
@@ -136,13 +137,9 @@ public class AulaService {
         return aulaRepository.save(aula);
     }
 
-    @Autowired
-    public void setSedeApiClient(SedeApiClient sedeApiClient) {
-        this.finalSedeApiClient = sedeApiClient;
-    }
 
     public Aula crearAulaApi(Aula aula) {
-        if (!finalSedeApiClient.existeSedePorId(aula.getSedeId())) {
+        if (!sedeVerificationService.existeSedePorId(aula.getSedeId())) {
             throw new IllegalArgumentException("La sede con ID " + aula.getSedeId() + " no existe.");
         }
 
