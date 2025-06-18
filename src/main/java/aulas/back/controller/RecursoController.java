@@ -25,6 +25,7 @@ import java.util.List;
  *
  * @author Jan
  */
+@CrossOrigin(origins = "http://localhost:3001")
 @RestController
 @RequestMapping("/recursos")
 public class RecursoController {
