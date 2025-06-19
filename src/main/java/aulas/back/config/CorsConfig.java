@@ -17,7 +17,7 @@ public class CorsConfig{
                                 "http://localhost:3001",
                                 "https://back-aulas-production.up.railway.app",
                                 "https://proyectonuclearfront.vercel.app"
-                        ).allowedOrigins("*")
+                        )
 
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
