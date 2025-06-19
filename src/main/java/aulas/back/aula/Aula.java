@@ -3,10 +3,12 @@ package aulas.back.aula;
 import aulas.back.estado.*;
 import aulas.back.flyweight.ConfiguracionAula;
 import aulas.back.observador.ObservadorAula;
+import aulas.back.recursos.RecursoTIC;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -56,6 +58,10 @@ public class Aula {
 
     @JsonIgnore
     private final List<ObservadorAula> observadores = new ArrayList<>();
+
+    @Transient
+    @Setter @Getter
+    private List<RecursoTIC> recursos = new ArrayList<>();
 
     @Setter @Getter
     private ConfiguracionAula configuracion;

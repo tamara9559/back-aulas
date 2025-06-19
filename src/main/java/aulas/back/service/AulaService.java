@@ -30,8 +30,28 @@ public class AulaService {
     }
 
     public List<Aula> listarAulas() {
-        return aulaRepository.findAll();
+        List<Aula> aulas = aulaRepository.findAll();
+
+        for (Aula aula : aulas) {
+            List<AulaRecurso> relaciones = aulaRecursoRepository.findByAulaId(aula.getId());
+
+            List<RecursoTIC> recursos = relaciones.stream()
+                    .map(rel -> {
+                        RecursoTIC recurso = recursoService.obtenerRecurso(rel.getRecursoId());
+                        if (recurso != null) {
+                            recurso.setCantidad(rel.getCantidad()); // ⬅ cantidad asignada al aula
+                        }
+                        return recurso;
+                    })
+                    .filter(r -> r != null)
+                    .toList();
+
+            aula.setRecursos(recursos);
+        }
+
+        return aulas;
     }
+
 
     public Aula crearAula(Aula aula) {
         boolean existe = aulaRepository.findAll().stream()

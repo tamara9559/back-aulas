@@ -54,6 +54,8 @@ public class AulaController {
         return aulaService.listarAulas();
     }
 
+
+
     @PostMapping
     public Aula crearAula(@RequestBody Aula aula) {
         return aulaService.crearAula(aula);
