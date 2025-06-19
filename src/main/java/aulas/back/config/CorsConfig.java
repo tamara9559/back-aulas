@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig{
+public class CorsConfig {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -18,7 +18,6 @@ public class CorsConfig{
                                 "https://back-aulas-production.up.railway.app",
                                 "https://proyectonuclearfront.vercel.app"
                         )
-
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
@@ -26,4 +25,5 @@ public class CorsConfig{
         };
     }
 }
+
 

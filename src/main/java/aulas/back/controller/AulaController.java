@@ -37,6 +37,7 @@ import java.util.List;
  *
  * @author Jan
  */
+@CrossOrigin(origins = "https://back-aulas-production.up.railway.app")
 @RestController
 @RequestMapping("/aulas")
 public class AulaController {
