@@ -3,6 +3,8 @@ package aulas.back.repository;
 import aulas.back.auditoria.AuditoriaEvento;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+
 /**
  * Repositorio de acceso a datos para eventos de auditoría.
  * <p>
@@ -18,5 +20,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  *
  * @author Jan
  */
+
+
 public interface AuditoriaRepository extends MongoRepository<AuditoriaEvento, String> {
+    List<AuditoriaEvento> findByEntidadId(String entidadId);
 }
+
